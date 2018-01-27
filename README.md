@@ -56,13 +56,13 @@ Note: All subroutines and functions calculate induced velocity by a *unit* vorte
 
 ### Parameters for test case
 #### Interaction of rotor with free vortex
-1500 RPM
-forward speed=110 fps
-mu=0.7
-free vortex gamma = 15.25 ft2/s
-chord=0.167ft
-radius=1ft
-core radius=0.031ft
-theta0=0deg
-tip path=0deg
+1500 RPM = 157.08 rad/s
+forward speed = 110ft/s = 33.55m/s
+mu = 0.7
+free vortex gamma = 15.25 ft2/s = 1.49 m2/s
+chord = 0.167ft = 0.051m
+radius = 1ft = 0.305m
+core radius = 0.031ft = 0.00946m
+theta0 = 0deg
+tip path = 0deg
 
