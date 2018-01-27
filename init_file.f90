@@ -10,6 +10,12 @@ real(dp), dimension(nc*ns) :: RHS, gamvec, gamvec_prev
 ! Wing variables
 real(dp) :: chord, span
 
+! Free vortex variables
+real(dp) :: hval, zval
+type(vf_class) :: fil
+real(dp) :: fil_gam
+real(dp), dimension(3) :: v_fil
+
 ! Kinematics
 real(dp) :: dt, om_theta, om_h
 real(dp) :: theta_pitch, dtheta_pitch

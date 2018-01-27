@@ -17,7 +17,7 @@ program main
   read(12,*)
   read(12,*)
   read(12,*)
-  read(12,*) h0,om_h
+  read(12,*) h0,om_h,zval,hval
   read(12,*)
   read(12,*)
   read(12,*)
@@ -33,6 +33,12 @@ program main
   vbody=-1._dp*vwind
   pqr=-1._dp*om_body
 
+  ! Free vortex definition
+  fil%fc(:,1)=(/-zval,0._dp,hval/)
+  fil%fc(:,2)=(/-zval,0._dp,hval/)
+  fil%r_vc0=0.00946
+  fil_gam=1.49
+
   ! Geometry Definition
   xvec=linspace(0._dp,chord,nc+1)
   select case (span_spacing_switch)
@@ -43,11 +49,11 @@ program main
   end select
 
   ! Initialize wake geometry and core radius
-  call init_wake(wake,0.075*span)
+  call init_wake(wake,0.00946_dp)
   gamvec_prev=0._dp
 
   ! Initialize wing geometry, vr, cp, ncap coordinates and core radius
-  call init_wing(wing,xvec,yvec,0.001_dp*span)
+  call init_wing(wing,xvec,yvec,0.00946_dp)
 
   ! Rotate wing pc, vr, cp and ncap by initial pitch angle 
   theta_pitch=theta0
@@ -96,6 +102,11 @@ program main
 
       ! pqr vel
       RHS(indx)= RHS(indx)+dot_product(cross3(pqr,wing(ichord,ispan)%cp),wing(ichord,ispan)%ncap)
+
+      ! Filament induced vel
+      v_fil=fil%vind(wing(ichord,ispan)%cp)*fil_gam
+      RHS(indx)= RHS(indx)+dot_product(v_fil,wing(ichord,ispan)%ncap)
+
       indx=indx+1
     enddo
   enddo
@@ -176,6 +187,10 @@ program main
         ! Pitch vel
         wing(ichord,ispan)%vel_pitch=thetadot*wing(ichord,ispan)%r_hinge
         RHS(indx)=RHS(indx)+wing(ichord,ispan)%vel_pitch
+
+        ! Filament induced vel
+        v_fil=fil%vind(wing(ichord,ispan)%cp)*fil_gam
+        RHS(indx)= RHS(indx)+dot_product(v_fil,wing(ichord,ispan)%ncap)
 
         indx=indx+1
       enddo
