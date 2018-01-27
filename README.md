@@ -55,7 +55,14 @@ Note: All subroutines and functions calculate induced velocity by a *unit* vorte
 13. LOOP END - GO TO 6.
 
 ### Parameters for test case
-Om = 600 rad/s => 62.832 rad/s => 3600 deg/s  
-5 deg => 5/3600 s  
-1 rev = 360 deg => 1/10 s  
+#### Interaction of rotor with free vortex
+1500 RPM
+forward speed=110 fps
+mu=0.7
+free vortex gamma = 15.25 ft2/s
+chord=0.167ft
+radius=1ft
+core radius=0.031ft
+theta0=0deg
+tip path=0deg
 
