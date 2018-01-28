@@ -34,7 +34,7 @@ program main
   pqr=-1._dp*om_body
 
   ! Free vortex definition
-  fil%fc(:,1)=(/-zval,2._dp,hval/)
+  fil%fc(:,1)=(/-zval,-2._dp,hval/)
   fil%fc(:,2)=(/-zval,2._dp,hval/)
   fil%r_vc0=0.00946
   fil_gam=1.49
