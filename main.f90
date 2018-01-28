@@ -36,8 +36,9 @@ program main
   ! Free vortex definition
   fil%fc(:,1)=(/-zval,-2._dp,hval/)
   fil%fc(:,2)=(/-zval,2._dp,hval/)
-  fil%r_vc0=0.00946
-  fil_gam=1.49
+  fil%r_vc0=0.00946_dp
+  fil%r_vc=fil%r_vc0
+  fil_gam=-1.49_dp
 
   ! Geometry Definition
   xvec=linspace(0._dp,chord,nc+1)
@@ -54,13 +55,14 @@ program main
 
   ! Initialize wing geometry, vr, cp, ncap coordinates and core radius
   call init_wing(wing,xvec,yvec,0.00946_dp)
+  hub_coords=0._dp
 
   ! Rotate wing pc, vr, cp and ncap by initial pitch angle 
   theta_pitch=theta0
-  call rot_wing(wing,(/0._dp,theta_pitch,0._dp/),1)
+  call rot_wing(wing,(/0._dp,theta_pitch,0._dp/),hub_coords,1)
 
   !  TE vortex position
-  v_shed=0.20*vwind
+  v_shed=(/0.20*norm2(vwind),0._dp,0._dp/)
   do ispan=1,ns
     call wing(nc,ispan)%vr%shiftdP(2,v_shed*dt)
     call wing(nc,ispan)%vr%shiftdP(3,v_shed*dt)
@@ -166,7 +168,8 @@ program main
 
     ! Wing motion 
     call mov_wing(wing,(vbody+vel_plunge)*dt) ! Translate wing
-    call rot_wing(wing,dpts,1)                ! Wing Global rotation
+    hub_coords=hub_coords+(vbody+vel_plunge)*dt
+    call rot_wing(wing,dpts,hub_coords,1)     ! Wing Global rotation
     call pitch_wing(wing,dtheta_pitch,pts)    ! Wing Pitch rotation
 
     call assignshed(wake(row_now,:),wing(nc,:),'LE')  ! Store shed vortex as LE
@@ -210,7 +213,7 @@ program main
 
     ! Induced vel on wake vortices
     vind_wake(:,row_now:nt,:)=vind_onwake(wing,wake(row_now:nt,:))
-    vind_wake(:,row_now:nt,:)=vind_wake(:,row_now:nt,:)+vind_onwake(wake(row_now:nt,:),wake(row_now:nt,:))
+    vind_wake(:,row_now:nt,:)=vind_wake(:,row_now:nt,:)+vind_onwake(wake(row_now:nt,:),wake(row_now:nt,:),fil,fil_gam)
 
     ! Update wake vortex locations
     if (PCwake_switch .eq. 0) then
@@ -221,7 +224,7 @@ program main
       call convectwake(Pwake(row_now:nt,:),vind_wake(:,row_now:nt,:)*dt)
 
       Pvind_wake(:,row_now:nt,:)=vind_onwake(wing,Pwake(row_now:nt,:))
-      Pvind_wake(:,row_now:nt,:)=Pvind_wake(:,row_now:nt,:)+vind_onwake(Pwake(row_now:nt,:),Pwake(row_now:nt,:))
+      Pvind_wake(:,row_now:nt,:)=Pvind_wake(:,row_now:nt,:)+vind_onwake(Pwake(row_now:nt,:),Pwake(row_now:nt,:),fil,fil_gam)
 
       call convectwake(wake(row_now:nt,:),(vind_wake(:,row_now:nt,:)+Pvind_wake(:,row_now:nt,:))*dt*0.5_dp)
     endif
