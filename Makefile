@@ -5,8 +5,8 @@ iflags=-fast -O3 -qopenmp -implicitnone -r8
 
 #### GFORTRAN ####
 gfc=gfortran-7 
-gflags=-O2 -ffree-form -fimplicit-none -fopenmp
-#gflags=-fbacktrace -O0 -ffree-form -Wall -Wextra -Wimplicit-interface -Wunused-parameter -Wline-truncation -Wcharacter-truncation -Wsurprising -Waliasing -fimplicit-none -fcheck=all -g -ffpe-trap=invalid,zero
+#gflags=-O2 -ffree-form -fimplicit-none -fopenmp
+gflags=-fbacktrace -O0 -ffree-form -Wall -Wextra -Wimplicit-interface -Wunused-parameter -Wline-truncation -Wcharacter-truncation -Wsurprising -Waliasing -fimplicit-none -fcheck=all -g -ffpe-trap=invalid,zero
 objpath=./obj
 resultspath=./Results
 
