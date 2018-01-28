@@ -6,7 +6,7 @@ module library
 
   ! Input parameters
   integer, parameter  :: nt = 80
-  integer, parameter  :: ns = 15
+  integer, parameter  :: ns = 19
   integer, parameter  :: nc = 4
 
   ! Global env parameters
@@ -554,11 +554,11 @@ module library
         enddo
 
         calclift=0._dp
-        do j=1,cols
-          do i=1,rows
-            calclift=calclift+wg(i,j)%dlift
-          enddo
+        !do j=1,cols
+        do i=1,rows
+          calclift=calclift+wg(i,17)%dlift
         enddo
+        !enddo
       end function calclift
 
       function calcdrag(wg,gamvec_prev,dt)
