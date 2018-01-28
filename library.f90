@@ -6,8 +6,8 @@ module library
 
   ! Input parameters
   integer, parameter  :: nt = 80
-  integer, parameter  :: ns = 12
-  integer, parameter  :: nc = 3
+  integer, parameter  :: ns = 15
+  integer, parameter  :: nc = 4
 
   ! Global env parameters
   real(dp), parameter :: density = 1.2_dp
