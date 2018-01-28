@@ -5,7 +5,7 @@ module library
   implicit none
 
   ! Input parameters
-  integer, parameter  :: nt = 80
+  integer, parameter  :: nt = 72
   integer, parameter  :: ns = 19
   integer, parameter  :: nc = 4
 
@@ -505,6 +505,7 @@ module library
         real(dp) :: calclift
         real(dp), dimension(size(wg,1),size(wg,2)) :: gam_prev
         real(dp), dimension(3) :: tau_c, tau_s
+        real(dp) :: qinf_local
         integer :: i,j,rows,cols
         ! Inherent assumption that panels have subdivisions along chord and not inclined to it
         ! while calculating tangent vector
@@ -556,7 +557,9 @@ module library
         calclift=0._dp
         !do j=1,cols
         do i=1,rows
-          calclift=calclift+wg(i,17)%dlift
+          tau_c=wg(i,17)%pc(:,2)-wg(i,17)%pc(:,1)
+          qinf_local=0.5_dp*density*(dot_product(wg(i,17)%velCP,tau_c))**2._dp!*wg(i,17)%panel_area
+          calclift=calclift+wg(i,17)%dlift/qinf_local
         enddo
         !enddo
       end function calclift
