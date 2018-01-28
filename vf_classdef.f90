@@ -43,14 +43,8 @@ contains
     vind=0.
 
     if (r1_r2_abs2>tol) then
-      print*,'Inside'
       !vind = r1_r2/(4._dp*pi*r1_r2_abs2)*(dot_product(r0,r1)/r1_abs-dot_product(r0,r2)/r2_abs)
       vind=r1_r2/(4._dp*pi*r1_r2_abs2)*dot_product(r0,r1/r1_abs-r2/r2_abs)
-    endif
-
-    if (norm2(vind) .lt. eps) then
-      print*,r1_r2
-      error stop 'vind zero'
     endif
 
     select case (model_switch)
