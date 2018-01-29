@@ -145,7 +145,7 @@ contains
     real(dp), intent(in), dimension(:) :: extra_params ![1]dt [2]chord [3]psi [4]speed [5]omega
     integer :: i
     real(dp) :: v_norm
-    v_norm = extra_params(4)*sin(extra_params(3))+extra_params(5)*0.75_dp
+    v_norm = extra_params(4)*sin(extra_params(3))+extra_params(5)*0.75_dp*0.305_dp
 
     open(unit=10,file=filename)
     write(10,*) '# Lift'
