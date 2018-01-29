@@ -557,9 +557,7 @@ module library
         calclift=0._dp
         !do j=1,cols
         do i=1,rows
-          tau_c=wg(i,17)%pc(:,2)-wg(i,17)%pc(:,1)
-          qinf_local=0.5_dp*density*(dot_product(wg(i,17)%velCP,tau_c))**2._dp!*wg(i,17)%panel_area
-          calclift=calclift+wg(i,17)%dlift/qinf_local
+          calclift=calclift+wg(i,17)%dlift
         enddo
         !enddo
       end function calclift

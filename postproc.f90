@@ -142,13 +142,15 @@ contains
   subroutine lift2file(liftvec,filename,extra_params)
     real(dp), intent(in), dimension(:) :: liftvec
     character(*), intent(in) :: filename
-    real(dp), intent(in), dimension(:) :: extra_params ![1]dt [2]chord [3]span [4]speed
+    real(dp), intent(in), dimension(:) :: extra_params ![1]dt [2]chord [3]psi [4]speed [5]omega
     integer :: i
+    real(dp) :: v_norm
+    v_norm = extra_params(4)*sin(extra_params(3))+extra_params(5)*0.75_dp
 
     open(unit=10,file=filename)
     write(10,*) '# Lift'
     do i=1,size(liftvec,1)
-      write(10,*) extra_params(1)*i,liftvec(i)!/(0.5_dp*1.2_dp*extra_params(4)**2._dp*extra_params(2)*extra_params(3))
+      write(10,*) extra_params(1)*i,liftvec(i)/(0.5_dp*1.2_dp*v_norm**2._dp*extra_params(2))
     enddo
     close(10)
   end subroutine lift2file
