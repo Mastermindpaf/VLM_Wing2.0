@@ -1,8 +1,8 @@
 module wakepanel_classdef
-  use vr_classdef
+  use vll_classdef
   implicit none
   type wakepanel_class
-    type(vr_class) :: vr
+    type(vll_class) :: vll
     integer :: tag                   ! for identifying panel to be wing or wake
   end type wakepanel_class
 

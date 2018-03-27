@@ -51,17 +51,17 @@ contains
     !Check if necessary - $omp parallel do collapse(2)
     do j=1,ny
       do i=1,nx
-        wake_mesh(:,i,j)=wake_array(i,j)%vr%vf(1)%fc(:,1)
+        wake_mesh(:,i,j)=wake_array(i,j)%vll%vf(1)%fc(:,1)
       enddo
     enddo
     !Check if necessary -$omp end parallel do
     do i=1,nx
-      wake_mesh(:,i,ny+1)=wake_array(i,ny)%vr%vf(4)%fc(:,1)
+      wake_mesh(:,i,ny+1)=wake_array(i,ny)%vll%vf(4)%fc(:,1)
     enddo
     do j=1,ny
-      wake_mesh(:,nx+1,j)=wake_array(nx,j)%vr%vf(2)%fc(:,1)
+      wake_mesh(:,nx+1,j)=wake_array(nx,j)%vll%vf(2)%fc(:,1)
     enddo
-    wake_mesh(:,nx+1,ny+1)=wake_array(nx,ny)%vr%vf(3)%fc(:,1)
+    wake_mesh(:,nx+1,ny+1)=wake_array(nx,ny)%vll%vf(3)%fc(:,1)
 
     write(10,*) 'Zone I='//trim(nx_char)//' J='//trim(ny_char)//' K=1  T="Wake"'
     write(10,*) 'DATAPACKING=BLOCK'
@@ -69,7 +69,7 @@ contains
     write(10,*) ((wake_mesh(1,i,j),i=1,nx+1),j=1,ny+1)
     write(10,*) ((wake_mesh(2,i,j),i=1,nx+1),j=1,ny+1)
     write(10,*) ((wake_mesh(3,i,j),i=1,nx+1),j=1,ny+1)
-    write(10,*) ((-1._dp*wake_array(i,j)%vr%gam,i=1,nx),j=1,ny)
+    write(10,*) ((-1._dp*wake_array(i,j)%vll%gam,i=1,nx),j=1,ny)
     write(10,*) ((wake_array(i,j)%tag,i=1,nx),j=1,ny)
 
     close(10)
@@ -117,9 +117,9 @@ contains
     write(nx_char,'(I5)') nx+1
 
     do i=1,nx
-      wake_tip(:,i)=wake_array(i,1)%vr%vf(1)%fc(:,1)
+      wake_tip(:,i)=wake_array(i,1)%vll%vf(1)%fc(:,1)
     enddo
-    wake_tip(:,nx+1)=wake_array(nx,1)%vr%vf(2)%fc(:,1)
+    wake_tip(:,nx+1)=wake_array(nx,1)%vll%vf(2)%fc(:,1)
 
     write(10,*) 'Zone I='//trim(nx_char)//' J=1   K=1  T="wake_root"'
     write(10,*) 'DATAPACKING=BLOCK'
@@ -129,9 +129,9 @@ contains
 
     ! Wake tip
     do i=1,nx
-      wake_tip(:,i)=wake_array(i,ny)%vr%vf(4)%fc(:,1)
+      wake_tip(:,i)=wake_array(i,ny)%vll%vf(4)%fc(:,1)
     enddo
-    wake_tip(:,nx+1)=wake_array(nx,ny)%vr%vf(3)%fc(:,1)
+    wake_tip(:,nx+1)=wake_array(nx,ny)%vll%vf(3)%fc(:,1)
 
     write(10,*) 'Zone I='//trim(nx_char)//' J=1   K=1  T="wake_tip"'
     write(10,*) 'DATAPACKING=BLOCK'

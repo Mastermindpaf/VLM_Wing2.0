@@ -25,6 +25,7 @@ lib:
 	@$(ifc) $(iflags) -c mymathlib.f90          -module $(objpath) -o $(objpath)/mymathlib.o
 	@$(ifc) $(iflags) -c vf_classdef.f90        -module $(objpath) -o $(objpath)/vf_classdef.o
 	@$(ifc) $(iflags) -c vr_classdef.f90        -module $(objpath) -o $(objpath)/vr_classdef.o
+	@$(ifc) $(iflags) -c vll_classdef.f90       -module $(objpath) -o $(objpath)/vll_classdef.o
 	@$(ifc) $(iflags) -c wingpanel_classdef.f90 -module $(objpath) -o $(objpath)/wingpanel_classdef.o
 	@$(ifc) $(iflags) -c wakepanel_classdef.f90 -module $(objpath) -o $(objpath)/wakepanel_classdef.o
 	@$(ifc) $(iflags) -c library.f90            -module $(objpath) -o $(objpath)/library.o
@@ -35,6 +36,7 @@ lib_dbg:
 	@$(ifc) $(iflagsdbg) -c mymathlib.f90          -module $(objpath) -o $(objpath)/mymathlib.o
 	@$(ifc) $(iflagsdbg) -c vf_classdef.f90        -module $(objpath) -o $(objpath)/vf_classdef.o
 	@$(ifc) $(iflagsdbg) -c vr_classdef.f90        -module $(objpath) -o $(objpath)/vr_classdef.o
+	@$(ifc) $(iflagsdbg) -c vll_classdef.f90       -module $(objpath) -o $(objpath)/vll_classdef.o
 	@$(ifc) $(iflagsdbg) -c wingpanel_classdef.f90 -module $(objpath) -o $(objpath)/wingpanel_classdef.o
 	@$(ifc) $(iflagsdbg) -c wakepanel_classdef.f90 -module $(objpath) -o $(objpath)/wakepanel_classdef.o
 	@$(ifc) $(iflagsdbg) -c library.f90            -module $(objpath) -o $(objpath)/library.o

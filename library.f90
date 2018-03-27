@@ -5,7 +5,7 @@ module library
   implicit none
 
   ! Input parameters
-  integer, parameter :: nt = 500
+  integer, parameter :: nt = 50
   integer, parameter :: ns = 13
   integer, parameter :: nc = 5
 
@@ -118,47 +118,47 @@ contains
 
     ! Assign core_radius to mid vortices
     do i=1,4
-      wake_array%vr%vf(i)%r_vc0=mid_core_radius
-      wake_array%vr%vf(i)%r_vc =mid_core_radius
-      wake_array%vr%vf(i)%age=0._dp
+      wake_array%vll%vf(i)%r_vc0=mid_core_radius
+      wake_array%vll%vf(i)%r_vc =mid_core_radius
+      wake_array%vll%vf(i)%age=0._dp
     enddo
 
     wake_array%tag=-1
-    wake_array%vr%gam=0._dp
+    wake_array%vll%gam=0._dp
 
     ! Assign core_radius to tip vortices
     do i=1,rows
       ! Root vortex 
-      wake_array(i,1)%vr%vf(1)%r_vc0      = tip_core_radius 
-      wake_array(i,1)%vr%vf(1)%r_vc       = tip_core_radius 
-      wake_array(i,1)%vr%vf(3)%r_vc0      = tip_core_radius 
-      wake_array(i,1)%vr%vf(3)%r_vc       = tip_core_radius 
+      wake_array(i,1)%vll%vf(1)%r_vc0      = tip_core_radius 
+      wake_array(i,1)%vll%vf(1)%r_vc       = tip_core_radius 
+      wake_array(i,1)%vll%vf(3)%r_vc0      = tip_core_radius 
+      wake_array(i,1)%vll%vf(3)%r_vc       = tip_core_radius 
 
-      wake_array(i,2)%vr%vf(1)%r_vc0      = tip_core_radius 
-      wake_array(i,2)%vr%vf(1)%r_vc       = tip_core_radius 
-      wake_array(i,2)%vr%vf(3)%r_vc0      = tip_core_radius 
-      wake_array(i,2)%vr%vf(3)%r_vc       = tip_core_radius 
+      wake_array(i,2)%vll%vf(1)%r_vc0      = tip_core_radius 
+      wake_array(i,2)%vll%vf(1)%r_vc       = tip_core_radius 
+      wake_array(i,2)%vll%vf(3)%r_vc0      = tip_core_radius 
+      wake_array(i,2)%vll%vf(3)%r_vc       = tip_core_radius 
 
       ! Tip vortex 
-      wake_array(i,cols)%vr%vf(1)%r_vc0   = tip_core_radius 
-      wake_array(i,cols)%vr%vf(1)%r_vc    = tip_core_radius 
-      wake_array(i,cols)%vr%vf(3)%r_vc0   = tip_core_radius 
-      wake_array(i,cols)%vr%vf(3)%r_vc    = tip_core_radius 
+      wake_array(i,cols)%vll%vf(1)%r_vc0   = tip_core_radius 
+      wake_array(i,cols)%vll%vf(1)%r_vc    = tip_core_radius 
+      wake_array(i,cols)%vll%vf(3)%r_vc0   = tip_core_radius 
+      wake_array(i,cols)%vll%vf(3)%r_vc    = tip_core_radius 
 
-      wake_array(i,cols-1)%vr%vf(3)%r_vc0 = tip_core_radius 
-      wake_array(i,cols-1)%vr%vf(3)%r_vc  = tip_core_radius 
-      wake_array(i,cols-1)%vr%vf(3)%r_vc0 = tip_core_radius 
-      wake_array(i,cols-1)%vr%vf(3)%r_vc  = tip_core_radius 
+      wake_array(i,cols-1)%vll%vf(3)%r_vc0 = tip_core_radius 
+      wake_array(i,cols-1)%vll%vf(3)%r_vc  = tip_core_radius 
+      wake_array(i,cols-1)%vll%vf(3)%r_vc0 = tip_core_radius 
+      wake_array(i,cols-1)%vll%vf(3)%r_vc  = tip_core_radius 
     enddo
 
     if (starting_vortex_core > eps) then
       ! Assign core_radius to starting vortices
       do i=1,cols
         do j=2,4,2
-          wake_array(rows,i)%vr%vf(j)%r_vc0 = starting_vortex_core
-          wake_array(rows,i)%vr%vf(j)%r_vc  = starting_vortex_core
-          wake_array(rows-1,i)%vr%vf(j)%r_vc0 = starting_vortex_core
-          wake_array(rows-1,i)%vr%vf(j)%r_vc  = starting_vortex_core
+          wake_array(rows,i)%vll%vf(j)%r_vc0 = starting_vortex_core
+          wake_array(rows,i)%vll%vf(j)%r_vc  = starting_vortex_core
+          wake_array(rows-1,i)%vll%vf(j)%r_vc0 = starting_vortex_core
+          wake_array(rows-1,i)%vll%vf(j)%r_vc  = starting_vortex_core
         enddo
       enddo
     endif
@@ -279,20 +279,20 @@ contains
     character(len=2), intent(in) :: edge
     integer :: i
 
-    wake_row%vr%gam=wing_row%vr%gam
+    wake_row%vll%gam=wing_row%vr%gam
 
     select case (edge)
     case ('LE')    ! assign to LE 
       do i=1,size(wing_row)
-        call wake_row(i)%vr%assignP(1,wing_row(i)%vr%vf(2)%fc(:,1))
-        call wake_row(i)%vr%assignP(4,wing_row(i)%vr%vf(3)%fc(:,1))
-        call wake_row(i)%vr%calclength(.TRUE.)    ! TRUE => record original length
+        call wake_row(i)%vll%assignP(1,wing_row(i)%vr%vf(2)%fc(:,1))
+        call wake_row(i)%vll%assignP(4,wing_row(i)%vr%vf(3)%fc(:,1))
+        call wake_row(i)%vll%calclength(.TRUE.)    ! TRUE => record original length
       enddo
       wake_row%tag=1
     case ('TE')    ! assign to TE
       do i=1,size(wing_row)
-        call wake_row(i)%vr%assignP(2,wing_row(i)%vr%vf(2)%fc(:,1))
-        call wake_row(i)%vr%assignP(3,wing_row(i)%vr%vf(3)%fc(:,1))
+        call wake_row(i)%vll%assignP(2,wing_row(i)%vr%vf(2)%fc(:,1))
+        call wake_row(i)%vll%assignP(3,wing_row(i)%vr%vf(3)%fc(:,1))
       enddo
     case default
       error stop 'Error: Wrong option for edge'
@@ -312,14 +312,14 @@ contains
     !$omp parallel do collapse(2)
     do j=1,cols
       do i=1,rows
-        call wake_array(i,j)%vr%shiftdP(2,dP_array(:,i,j))
+        call wake_array(i,j)%vll%shiftdP(2,dP_array(:,i,j))
       enddo
     enddo
     !$omp end parallel do
 
     !$omp parallel do
     do i=1,rows
-      call wake_array(i,cols)%vr%shiftdP(3,dP_array(:,i,cols+1))
+      call wake_array(i,cols)%vll%shiftdP(3,dP_array(:,i,cols+1))
     enddo
     !$omp end parallel do
     call wake_continuity(wake_array)
@@ -337,23 +337,23 @@ contains
     !$omp parallel do collapse(2)
     do j=1,cols-1
       do i=2,rows
-        call wake_array(i,j)%vr%assignP(1,wake_array(i-1,j)%vr%vf(2)%fc(:,1))
-        call wake_array(i,j)%vr%assignP(3,wake_array(i,j+1)%vr%vf(2)%fc(:,1))
-        call wake_array(i,j)%vr%assignP(4,wake_array(i-1,j+1)%vr%vf(2)%fc(:,1))
+        call wake_array(i,j)%vll%assignP(1,wake_array(i-1,j)%vll%vf(2)%fc(:,1))
+        call wake_array(i,j)%vll%assignP(3,wake_array(i,j+1)%vll%vf(2)%fc(:,1))
+        call wake_array(i,j)%vll%assignP(4,wake_array(i-1,j+1)%vll%vf(2)%fc(:,1))
       enddo
     enddo
     !$omp end parallel do
 
     !$omp parallel do
     do j=1,cols-1
-      call wake_array(1,j)%vr%assignP(3,wake_array(1,j+1)%vr%vf(2)%fc(:,1))
+      call wake_array(1,j)%vll%assignP(3,wake_array(1,j+1)%vll%vf(2)%fc(:,1))
     enddo
     !$omp end parallel do
 
     !$omp parallel do
     do i=2,rows
-      call wake_array(i,cols)%vr%assignP(1,wake_array(i-1,cols)%vr%vf(2)%fc(:,1))
-      call wake_array(i,cols)%vr%assignP(4,wake_array(i-1,cols)%vr%vf(3)%fc(:,1))
+      call wake_array(i,cols)%vll%assignP(1,wake_array(i-1,cols)%vll%vf(2)%fc(:,1))
+      call wake_array(i,cols)%vll%assignP(4,wake_array(i-1,cols)%vll%vf(3)%fc(:,1))
     enddo
     !$omp end parallel do
   end subroutine wake_continuity
@@ -364,7 +364,7 @@ contains
     integer :: i
     !$omp parallel do
     do i=1,4
-      wake_array%vr%vf(i)%age=wake_array%vr%vf(i)%age+dt
+      wake_array%vll%vf(i)%age=wake_array%vll%vf(i)%age+dt
     enddo
     !$omp end parallel do
   end subroutine age_wake
@@ -380,14 +380,14 @@ contains
 
     do ii=1,size(wake_array,1)
       ! Root vortex core
-      new_radius=sqrt(wake_array(ii,1)%vr%vf(1)%r_vc**2._dp &
-        +4._dp*oseen_param*turb_visc*kin_visc*wake_array(ii,1)%vr%vf(1)%age)
-      wake_array(ii,1)%vr%vf(1)%r_vc=new_radius
+      new_radius=sqrt(wake_array(ii,1)%vll%vf(1)%r_vc**2._dp &
+        +4._dp*oseen_param*turb_visc*kin_visc*wake_array(ii,1)%vll%vf(1)%age)
+      wake_array(ii,1)%vll%vf(1)%r_vc=new_radius
 
       ! Tip vortex core
-      new_radius=sqrt(wake_array(ii,tip)%vr%vf(3)%r_vc**2._dp &
-        +4._dp*oseen_param*turb_visc*kin_visc*wake_array(ii,tip)%vr%vf(3)%age)
-      wake_array(ii,tip)%vr%vf(3)%r_vc=new_radius
+      new_radius=sqrt(wake_array(ii,tip)%vll%vf(3)%r_vc**2._dp &
+        +4._dp*oseen_param*turb_visc*kin_visc*wake_array(ii,tip)%vll%vf(3)%age)
+      wake_array(ii,tip)%vll%vf(3)%r_vc=new_radius
     enddo
   end subroutine dissipate_tip
 
@@ -397,8 +397,8 @@ contains
     !$omp parallel do collapse(2)
     do j=1,size(wake_array,2)
       do i=1,size(wake_array,1)
-        call wake_array(i,j)%vr%calclength(.FALSE.)    ! Update current length
-        call wake_array(i,j)%vr%strain() 
+        call wake_array(i,j)%vll%calclength(.FALSE.)    ! Update current length
+        call wake_array(i,j)%vll%strain() 
       enddo
     enddo
     !$omp end parallel do
@@ -475,7 +475,7 @@ contains
     !$omp parallel do collapse(2) shared(wake_array,velind_mat)
     do j=1,size(wake_array,2)
       do i=1,size(wake_array,1)
-        velind_mat(:,i,j)=wake_array(i,j)%vr%vind(P)*wake_array(i,j)%vr%gam
+        velind_mat(:,i,j)=wake_array(i,j)%vll%vind(P)*wake_array(i,j)%vll%gam
       enddo
     enddo
     !$omp end parallel do
@@ -500,14 +500,14 @@ contains
     !$omp parallel do collapse(2) shared(wake_array,wing_array,vind_array)
     do j=1,cols
       do i=1,rows
-        vind_array(:,i,j)=vind_panelgeo(wing_array,wake_array(i,j)%vr%vf(2)%fc(:,1))
+        vind_array(:,i,j)=vind_panelgeo(wing_array,wake_array(i,j)%vll%vf(2)%fc(:,1))
       enddo
     enddo
     !$omp end parallel do
 
     !$omp parallel do shared(wake_array,wing_array,vind_array)
     do i=1,rows
-      vind_array(:,i,cols+1)=vind_panelgeo(wing_array,wake_array(i,cols)%vr%vf(3)%fc(:,1))
+      vind_array(:,i,cols+1)=vind_panelgeo(wing_array,wake_array(i,cols)%vll%vf(3)%fc(:,1))
     enddo
     !$omp end parallel do
   end function vind_onwake_bywing
@@ -525,14 +525,14 @@ contains
     !$omp parallel do collapse(2) shared(wake_array,vind_array)
     do j=1,cols
       do i=1,rows
-        vind_array(:,i,j)=vind_panelgeo(bywake_array,wake_array(i,j)%vr%vf(2)%fc(:,1))
+        vind_array(:,i,j)=vind_panelgeo(bywake_array,wake_array(i,j)%vll%vf(2)%fc(:,1))
       enddo
     enddo
     !$omp end parallel do
 
     !$omp parallel do shared(wake_array,vind_array)
     do i=1,rows
-      vind_array(:,i,cols+1)=vind_panelgeo(bywake_array,wake_array(i,cols)%vr%vf(3)%fc(:,1))
+      vind_array(:,i,cols+1)=vind_panelgeo(bywake_array,wake_array(i,cols)%vll%vf(3)%fc(:,1))
     enddo
     !$omp end parallel do
   end function vind_onwake_bywake
